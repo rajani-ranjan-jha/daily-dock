@@ -1,33 +1,26 @@
-'use client'
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Cloud, Sun, CloudRain, Menu, X, Plus, Play, Pause, RotateCcw, Trash2 } from 'lucide-react';
-import Quote from './Quote';
-import Weather from './Weather';
+"use client";
+import { useSession } from "next-auth/react";
+import Quote from "./Quote";
+import Weather from "./Weather";
 
-// Hero Component (for non-logged in users)
 const Hero = () => {
+  const {data: session} = useSession()
+
   return (
-    <div className='flex justify-between items-center border-2 rounded-md min-h-200'>
-      <div className="flex flex-col justify-center items-start gap-5 border-2">
-        <h2 className='text-left font-semibold font-mono text-4xl'>Hey, User</h2>
-        {/* Quote section */}
-        <Quote/>
+    <div className="flex flex-col justify-center gap-5 items-center rounded-md min-h-200">
+      <h2 className="p-5 w-full text-left font-semibold font-mono text-4xl">
+        Hey, {session?.user?.name ? `${session.user.name}` : 'User'}
+      </h2>
+      <div className="flex flex-col justify-between gap-5 items-center">
+        <div className="w-full flex flex-col justify-center items-start gap-5">
+          <Quote />
+        </div>
+        <div className="w-full flex flex-col justify-center items-center gap-5">
+          <Weather />
+        </div>
       </div>
-
-      <div className="w-1/2 flex flex-col justify-center items-center gap-5 border-2">
-        {/* Weather section */}
-        <Weather/>
-      </div>
-
-
-
     </div>
   );
 };
 
-export default Hero
+export default Hero;

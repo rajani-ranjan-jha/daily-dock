@@ -19,6 +19,7 @@ export async function getCurrentOpenWeather(lat: string, lon: string) {
         try {
             const response = await fetch(
                 `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API}`
+                // `https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid=${OPEN_WEATHER_API}`
             );
             const data = await response.json();
             return data

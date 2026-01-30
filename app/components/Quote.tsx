@@ -1,46 +1,45 @@
-'use client'
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Cloud, Sun, CloudRain, Menu, X, Plus, Play, Pause, RotateCcw, Trash2 } from 'lucide-react';
+"use client";
+import { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { GetQuote } from "./logics/quote";
 
 // Quote Component
 const Quote = () => {
-    const quotes = process.env.NEXT_PUBLIC_QUOTES
-    const [quotesData, setQuotesData] = useState()
+  const [quoteText, setQuoteText] = useState<string>(
+    "The only way to do great work is to love what you do.",
+  );
+  const [quoteAuthor, setQuoteAuthor] = useState<string>("Steve Jobs");
+  const [quoteCategory, setQuoteCategory] = useState<string[]>();
 
-    async function fetchData() {
-        try {
-            const res = await fetch(`https://api.api-ninjas.com/v2/quotes?categories=success%2Cwisdom`, {
-                headers: { 'X-Api-Key': `${quotes}`},
-                // contentType: 'application/json',
-            })
-            const data = await res.json()
-            console.log(data)
-        } catch (error) {
-            console.error(error)
-            
-        }
+  async function fetchData() {
+    const data = await GetQuote();
+    if (data && data[0].length !== 0) {
+      // console.log(data[0]);
+      setQuoteText(data[0].quote);
+      setQuoteAuthor(data[0].author);
+      setQuoteCategory(data[0].category);
     }
-    useEffect(() => {
-        // fetchData()
-    }, [])
+  }
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
-    <Card className="backdrop-blur-md bg-white/10 border-white/20 text-white">
+    <Card className="text-primary dark:text-foreground w-full backdrop-blur-xl bg-linear-to-br from-muted-foreground via-muted to-muted-foreground dark:from-primary-foreground dark:via-primary-foreground dark:to-secondary-foreground border-white/30 shadow-2xl overflow-hidden">
       <CardHeader>
-        <CardTitle>Quote of the Day</CardTitle>
+        <CardTitle className="w-full text-3xl">Quote of the Day</CardTitle>
       </CardHeader>
-      <CardContent className='flex flex-col'>
-        <blockquote className="text-lg italic text-white/90 mb-2">
-          "The only way to do great work is to love what you do."
-        </blockquote>
-        <div className="text-sm text-white/60 text-right">— Steve Jobs</div>
+      <CardContent className="w-full flex flex-col">
+        <span className="text-lg italic mb-2">"{quoteText}"</span>
+        <div className="text-sm text-right">— {quoteAuthor}</div>
       </CardContent>
     </Card>
   );
 };
 
-export default Quote
+export default Quote;
