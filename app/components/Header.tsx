@@ -52,7 +52,7 @@ const Header = () => {
               ))}
               
               {/* CTA Button */}
-              <button className="ml-4 px-6 py-2.5 bg-primary text-primary-foreground dark:text-muted-foreground text-sm font-medium rounded-full transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:scale-105">
+              <button className="ml-4 px-6 py-2.5 bg-secondary dark:bg-primary text-primary-foreground dark:text-muted-foreground text-sm font-medium rounded-full transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:scale-105">
                 Get Started
               </button>
             <ModeToggle/>
