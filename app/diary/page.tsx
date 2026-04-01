@@ -99,7 +99,7 @@ const DiaryApp = () => {
   return (
     <div className="page-layout">
       <Header />
-      <div className="flex items-start w-screen h-full">
+      <div className="flex items-start border-0 h-screen">
         <DiarySidebar
           isLoading={isLoading}
           diaries={diaries}
@@ -109,13 +109,13 @@ const DiaryApp = () => {
           onDelete={handleDeleteDiary}
         />
 
-        <main className="flex-1 relative flex flex-col h-full overflow-hidden">
+        <main className="h-full flex-1 flex-col overflow-hidden">
           {selectedDiary ? (
             <DiaryEditor diary={selectedDiary} onUpdate={handleUpdateDiary} />
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center">
-              <h1 className="text-4xl font-bold mb-4">My Diary</h1>
-              <p>Select a diary from the sidebar or create a new one.</p>
+            <div className="w-full h-full flex flex-col items-center justify-center">
+              <h1 className="text-3xl font-semibold tracking-tight mb-4">My Diary</h1>
+              <p className='text-sm mt-1'>Select a diary from the sidebar or create a new one.</p>
             </div>
           )}
         </main>

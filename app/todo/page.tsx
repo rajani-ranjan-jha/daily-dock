@@ -129,7 +129,7 @@ export default function TodoPage() {
     todos.filter((t) => t.status === status);
 
   return (
-    <div className="page-layout">
+    <div className="page-layout handle-scroll">
       <Header />
       <div className="h-full">
         <div className="max-w-6xl mx-auto px-6 py-10">
@@ -137,7 +137,7 @@ export default function TodoPage() {
           <div className="mb-8">
             <h1 className="text-2xl font-semibold tracking-tight">My Tasks</h1>
             <p className="text-sm mt-1">
-              Track your progress across all projects.
+              Track your progress by making todos.
             </p>
           </div>
 

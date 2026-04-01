@@ -35,7 +35,7 @@ const DiaryEditor: React.FC<DiaryEditorProps> = ({ diary, onUpdate }) => {
   }, [title, content]);
 
   return (
-    <div className="flex-1 bg-(--editor-color) h-full flex flex-col p-6 border border-muted m-4 rounded-2xl shadow-lg animate-fade-in">
+    <div className="handle-scroll flex-1 h-full flex flex-col p-6 border border-muted m-4 rounded-2xl shadow-lg animate-fade-in">
       <div className="flex justify-between items-center mb-4 border-b border-muted pb-2">
         
         <DiaryDatePicker diary={diary} onUpdate={onUpdate} />
