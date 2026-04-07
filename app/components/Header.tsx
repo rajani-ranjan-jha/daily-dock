@@ -34,7 +34,7 @@ const UserProfile = ({ name, email, image }: UserType) => {
   };
 
   return (
-    <div ref={containerRef} className="relative inline-block">
+    <div ref={containerRef} className="relative inline-block mr-3">
       {/* Trigger button */}
       <button
         onClick={() => setIsDropdownOpen((prev) => !prev)}
@@ -43,9 +43,9 @@ const UserProfile = ({ name, email, image }: UserType) => {
         className=" flex items-center justify-center transition-colors"
       >
         <img
-          className="w-10 h-10 rounded-full border"
+          className="w-10 rounded-full border"
           src={image || "/globe.svg"}
-          alt="User profile"
+          alt={name || 'user'}
         />
       </button>
 
@@ -162,7 +162,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { data: session, status } = useSession();
   // console.log(session)
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<UserType>();
 
   useEffect(() => {

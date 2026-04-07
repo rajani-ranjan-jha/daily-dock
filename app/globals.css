@@ -4,15 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* .dark.handle-scroll {
-  scroll-behavior: smooth;
-  scrollbar-color: white red;
-} */
-
-/* * {
-  font-family: var(--font-poppins);
-} */
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -72,10 +63,10 @@
     --primary-foreground: hsl(255 80% 6%);
 
     --secondary: hsl(253 76% 62%);
-    --secondary-foreground: hsl(255 80% 6%);
+    --secondary-foreground: hsl(257, 81%, 13%);
 
     --muted: hsl(253 56% 62%);
-    --muted-foreground: hsl(255 30% 97%);
+    --muted-foreground: hsl(254 63% 82%);
 
     --accent: hsl(257 71% 48%);
     --accent-foreground: hsl(255 80% 6%);
@@ -118,17 +109,34 @@
     animation: slideInFromTop 0.5s ease-in-out;
   }
 
-  .handle-scroll {
-    scroll-behavior: smooth;
-    /* scrollbar-color: rgb(156, 155, 155) transparent; */
-    scrollbar-color: white transparent;
+  .page-layout {
+    @apply font-poppins flex flex-col min-h-screen bg-foreground dark:bg-background text-primary dark:text-foreground transition-all duration-300;
   }
 
-  .page-layout{
-    @apply font-poppins flex flex-col h-screen bg-foreground dark:bg-background text-primary dark:text-foreground
-  }
-
-  .sidebar-animation{
+  .sidebar-animation {
     animation: fadeIn 0.5s ease-in-out;
+  }
+  /* specific itaems*/
+  .handle-scroll {
+    scrollbar-color: var(--muted) rgba(255, 0, 0, 0);
+  }
+  .handle-scroll::-webkit-scrollbar-thumb:hover {
+    background: red; /* new color on hover for the specific div */
+  }
+
+  /* entire app */
+  html::-webkit-scrollbar {
+    width: 8px;
+  }
+  html::-webkit-scrollbar-track {
+    background: rgba(255, 0, 0, 0);
+    border-radius: 5px;
+  }
+  html::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 5px;
+  }
+  html::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
   }
 }

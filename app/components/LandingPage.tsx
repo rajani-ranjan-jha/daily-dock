@@ -1,27 +1,41 @@
-
+// components/hero.tsx
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-const LandingPage = () => {
+export default function LandingPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 animate-fade-in animate-slide-in-top">
-      <div className="text-center max-w-3xl">
-        <h1 className="text-6xl font-bold mb-6">
-          Welcome to Your Daily Dock
-        </h1>
-        <p className="text-xl mb-8">
-          Organize your life with Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad, ab officiis. Sint tempore placeat ex rerum, enim architecto cupiditate maxime!
-        </p>
-        <div className="flex gap-4 justify-center">
-          <Button className="bg-secondary text-secondary-foreground dark:text-muted-foreground hover:bg-secondary/90 px-8 py-6 text-lg">
-            Sign In
-          </Button>
-          <Button className="bg-primary text-primary-foreground dark:text-muted-foreground hover:bg-primary/90 px-8 py-6 text-lg">
-            Get Started
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-};
+    <section className="animate-slide-in-top flex flex-col items-start max-w-4xl mx-auto px-6 py-24 transition-all duration-200">
+      
+      <Badge variant="outline" className="mb-8 uppercase tracking-widest text-xs font-medium text-secondary dark:text-muted-foreground rounded-full px-4 py-1.5">
+        <span className="mr-2 inline-block w-1.5 h-1.5 rounded-full bg-current opacity-100" />
+        Your productivity hub
+      </Badge>
 
-export default LandingPage;
+      <h1 className="text-5xl sm:text-6xl font-semibold leading-[1.1] tracking-tight mb-5 text-primary dark:text-foreground">
+        <span className="bg-linear-to-r from-accent to-muted-foreground bg-clip-text text-transparent">Daily Dock:{" "}</span>
+         Everything you need,{" "}
+        <span className="">right where you left it.</span>
+      </h1>
+
+      <p className="text-lg leading-relaxed text-secondary dark:text-muted-foreground max-w-xl mb-10">
+        Your Daily Dock brings your tasks, habits, and goals into one calm,
+        organized space — so you can stop managing your tools and start living
+        your day.
+      </p>
+
+      <div className="flex flex-wrap items-center gap-3">
+        <Button size="lg" className="text-white rounded-lg px-6 hover:scale-105 transition-transform duration-200">
+          Get started — it's free
+        </Button>
+        {/* <Button size="lg" variant="outline" className="rounded-lg px-6">
+          See how it works →
+        </Button> */}
+      </div>
+
+      <p className="mt-4 text-xs text-muted-foreground tracking-wide">
+        No credit card required · Takes 30 seconds to set up
+      </p>
+
+    </section>
+  );
+}
