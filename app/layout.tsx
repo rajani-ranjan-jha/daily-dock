@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import SessionWrapper from "./components/SessionWrapper";
+import { CustomToaster } from "./components/SendNotification";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <CustomToaster />
             {children}
           </ThemeProvider>
         </SessionWrapper>

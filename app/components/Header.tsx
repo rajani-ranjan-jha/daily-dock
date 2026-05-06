@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { Menu, Pause, Play, RotateCcw, Timer, X } from "lucide-react";
+import { Menu, Pause, Play, RotateCcw, Timer, X, Flame } from "lucide-react";
 import { ModeToggle } from "@/components/ui/theme";
 import { timerStore } from "../store/timerStore";
 
@@ -14,12 +14,12 @@ type UserType = {
 
 const UserProfile = ({ name, email, image }: UserType) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current?.contains(e.target)) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsDropdownOpen(false);
       }
     };
@@ -83,45 +83,25 @@ const TimerStatus = () => {
     mode,
     pomodoroTime,
     breakTime,
-    updateTime,
     toggleTimer,
     resetTimer,
     setMode,
-    setPomodoroTime,
-    setBreakTime,
-    setIsActive
+    tick
   } = timerStore();
   const [hovered, setHovered] = useState(false);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  
-    useEffect(() => {
-      // Sync time when settings change or mode switches (only if not running to avoid jumps)
-      if (!isActive) {
-        updateTime(mode === "pomodoro" ? pomodoroTime : breakTime);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [mode, pomodoroTime, breakTime]);
-  
-    useEffect(() => {
-      if (isActive && timeLeft > 0) {
-        timerRef.current = setInterval(() => {
-          updateTime(timeLeft - 1);
-        }, 1000);
-      } else if (timeLeft === 0 && isActive) {
-        // Timer Finished
-        setIsActive(false);
-      }
-  
-      return () => {
-        if (timerRef.current) clearInterval(timerRef.current);
-      };
-    }, [isActive, timeLeft, updateTime, setIsActive]);
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isActive) {
+      interval = setInterval(() => {
+        tick();
+      }, 1000);
+    }
 
-    useEffect(() => {
-      resetTimer();
-    }, [mode])
-    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isActive, tick]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -130,30 +110,36 @@ const TimerStatus = () => {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center gap-2 group inset-0 hover:bg-accent/20 rounded-full transition-transform duration-200">
-      <button
-        onMouseEnter={() => setHovered(true)}
-        className="px-5 py-2 text-sm font-medium capitalize transition-all duration-200"
-      >
-        <Timer size={20} />
-      </button>
-      {hovered && (
-        <div
-          onMouseLeave={() => setHovered(false)}
-          className="z-100 absolute top-10 w-40 min-h-20 p-2 bg-muted-foreground dark:bg-popover rounded-sm scale-0 transition-transform duration-200 group-hover:scale-100 border flex flex-col justify-center items-center gap-2 mx-auto"
+    <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 px-3 py-1 bg-orange-500/10 text-orange-500 rounded-full border border-orange-500/20" title="Daily Streak">
+        <Flame size={18} className="fill-orange-500" />
+        <span className="text-xs font-bold">12</span>
+      </div>
+      <div className="relative flex flex-col items-center justify-center group inset-0 hover:bg-accent/20 rounded-full transition-transform duration-200">
+        <button
+          onMouseEnter={() => setHovered(true)}
+          className="px-5 py-2 text-sm font-medium capitalize transition-all duration-200"
         >
-          <span className="text-2xl font-bold">{formatTime(timeLeft)}</span>
-          <span onClick={() => setMode(mode === "pomodoro" ? "break" : "pomodoro")} className={`text-sm capitalize cursor-pointer ${mode === "pomodoro" ? "text-blue-500" : "text-green-500"}`}>{mode}</span>
-          <div className="flex items-center gap-2">
-            <button className="hover:bg-white/20 p-1.5 rounded-full" onClick={toggleTimer} title={isActive ? "Pause" : "Start"}>
-              {isActive ? <Pause size={20} /> : <Play size={20} />}
-            </button>
-            <button className="hover:bg-white/20 p-1.5 rounded-full" onClick={resetTimer} title="Reset">
-              <RotateCcw size={20} />
-            </button>
+          <Timer size={20} />
+        </button>
+        {hovered && (
+          <div
+            onMouseLeave={() => setHovered(false)}
+            className="z-50 absolute top-10 w-40 min-h-20 p-2 bg-muted-foreground dark:bg-popover rounded-sm scale-0 transition-transform duration-200 group-hover:scale-100 border flex flex-col justify-center items-center gap-2 mx-auto"
+          >
+            <span className="text-2xl font-bold">{formatTime(timeLeft)}</span>
+            <span onClick={() => setMode(mode === "pomodoro" ? "break" : "pomodoro")} className={`text-sm capitalize cursor-pointer ${mode === "pomodoro" ? "text-blue-500" : "text-green-500"}`}>{mode}</span>
+            <div className="flex items-center gap-2">
+              <button className="hover:bg-white/20 p-1.5 rounded-full" onClick={toggleTimer} title={isActive ? "Pause" : "Start"}>
+                {isActive ? <Pause size={20} /> : <Play size={20} />}
+              </button>
+              <button className="hover:bg-white/20 p-1.5 rounded-full" onClick={resetTimer} title="Reset">
+                <RotateCcw size={20} />
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
@@ -176,7 +162,9 @@ const Header = () => {
   const pages = [
     { name: "home", href: "/" },
     { name: "about", href: "/about" },
-    { name: "contact", href: "/contact" },
+    { name: "diary", href: "/diary" },
+    { name: "todos", href: "/todo" },
+    { name: "notes", href: "/note" },
   ];
 
   return (
