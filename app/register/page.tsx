@@ -119,10 +119,10 @@ const Register = () => {
 
             <Button
               className="max-w-1/2 text-foreground cursor-pointer"
-              onClick={() => signIn("github", { callbackUrl: "/" })}
+              onClick={() => signIn("azure-ad", { callbackUrl: "/" })}
             >
-              <Image width="15" height="15" src="/github.svg" alt="github" />
-              Github
+              <Image width="20" height="20" src="/microsoft.svg" alt="microsoft" />
+              Microsoft
             </Button>
         </div>
         <p className="text-center text-sm mt-5">

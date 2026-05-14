@@ -94,10 +94,10 @@ const Login = () => {
           <Field>
             <Button
               className="text-foreground cursor-pointer"
-              onClick={() => signIn("github", { callbackUrl: "/" })}
+              onClick={() => signIn("azure-ad", { callbackUrl: "/" })}
             >
-              <Image width="15" height="15" src="/github.svg" alt="github" />
-              Login with Github
+              <Image width="20" height="20" src="/microsoft.svg" alt="microsoft" />
+              Login with Microsoft
             </Button>
           </Field>
         </FieldGroup>
